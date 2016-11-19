@@ -254,7 +254,6 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
                 AppUtils.showToast(activityReference.get(), "Bluetooth connection failed. Please try again.");
                 activityReference.get().retryBluetoothConnection(blueToothInfo, foodItemName);
             }
-
         }
     }
 }
