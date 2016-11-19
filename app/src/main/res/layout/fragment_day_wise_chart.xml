@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_daily_consumption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_8dp"
+        android:text="@string/text_daily_consumption"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_16dp"
+        android:textStyle="bold" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/text_view_monthly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_8dp"
+        android:text="@string/text_monthly"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_16dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_order_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:padding="@dimen/padding_8dp"
+        android:text="@string/text_order_online"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_16dp" />
+
+</LinearLayout>

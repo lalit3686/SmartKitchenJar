@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SmartKitchenJar</string>
+    <string name="text_reset">Reset</string>
+    <string name="text_remove_jar">Remove Jar</string>
+    <string name="INTENT_EXTRA_CURRENT_WEIGHT">INTENT_EXTRA_CURRENT_WEIGHT</string>
+    <string name="INTENT_EXTRA_ITEM_NAME">INTENT_EXTRA_ITEM_NAME</string>
+    <string name="INTENT_EXTRA_MACADDRESS">INTENT_EXTRA_MACADDRESS</string>
+    <string name="INTENT_EXTRA_JAR_WEIGHT_INFO">INTENT_EXTRA_JAR_WEIGHT_INFO</string>
+    <string name="text_daily_consumption" formatted="false">Daily Consumption of %s</string>
+    <string name="text_daily_consumption_in_grams" formatted="false">Daily Consumption of %s in grams</string>
+    <string name="text_monthly" formatted="false">You need %f grams of %s monthly</string>
+    <string name="text_order_online">Order Online</string>
+    <string name="message_enter_item_name">Please enter item name.</string>
+    <string name="message_title_enter_item_name">Please Enter Food Item</string>
+    <string name="message_add">Add</string>
+    <string name="message_cancel">Cancel</string>
+    <string name="title_live_weight">Live Weight</string>
+    <string name="title_day_wise_chart">Day Wise Chart</string>
+    <string name="text_live_weight" formatted="false">Live Weight of %s</string>
+</resources>

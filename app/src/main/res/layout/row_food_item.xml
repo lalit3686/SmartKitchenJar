@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:circular="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_10dp"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_8dp">
+
+        <TextView
+            android:id="@+id/text_view_food_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_2dp"
+            android:text="Rice"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_24sp" />
+
+        <TextView
+            android:id="@+id/text_view_consumed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_food_item"
+            android:paddingLeft="@dimen/padding_2dp"
+            android:text="Consumed: 400 gms"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/text_size_16dp" />
+
+
+        <TextView
+            android:id="@+id/text_view_time_to_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_consumed"
+            android:paddingLeft="@dimen/padding_2dp"
+            android:text="Time to empty: 2 days"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <com.lylc.widget.circularprogressbar.CircularProgressBar
+            android:id="@+id/circular_bar_weight"
+            style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_5dp"
+            circular:cpb_backgroundColor="@color/colorPrimaryDark"
+            circular:cpb_progressColor="@color/colorAccent"
+            circular:cpb_strokeWidth="25"
+            circular:cpb_titleColor="@android:color/black" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

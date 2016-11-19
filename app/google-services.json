@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "951442550018",
+    "firebase_url": "https://smartkitchejar.firebaseio.com",
+    "project_id": "smartkitchejar",
+    "storage_bucket": "smartkitchejar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951442550018:android:11a5d2fb2468b4ca",
+        "android_client_info": {
+          "package_name": "com.app.kitchen.jar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951442550018-iq4lluhklp772mtm0obst8p2raai63ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.kitchen.jar",
+            "certificate_hash": "D24E98828EF281F1B964AB52190B8DC4A668048B"
+          }
+        },
+        {
+          "client_id": "951442550018-u1iic66jnmilbmvasg3hdj5pm84koe5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0hSN4jqsG903K8b1HNeIgmDrnJ5NAll4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951442550018-u1iic66jnmilbmvasg3hdj5pm84koe5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
