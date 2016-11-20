@@ -3,6 +3,7 @@ package com.app.kitchen.jar.application;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.amitshekhar.DebugDB;
 import com.app.kitchen.jar.databases.DatabaseHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -17,9 +18,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         instance = this;
-
+        DebugDB.getAddressLog();
         getDatabaseHelperInstance().createDatabaseFile();
     }
 

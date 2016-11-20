@@ -27,6 +27,8 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.google.firebase:firebase-crash:9.6.1'
+
+    debugCompile 'com.amitshekhar.android:debug-db:0.2.0'
 }
 
 

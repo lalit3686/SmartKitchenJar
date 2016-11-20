@@ -206,6 +206,7 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
         private WeakReference<DeviceListActivity> activityReference;
         private BlueToothInfo blueToothInfo;
         private String foodItemName;
+        private String currentWeight;
         private boolean isConnected;
 
         private ConnectBlueToothTask(DeviceListActivity activity, BlueToothInfo blueToothInfo, String foodItemName){
@@ -229,7 +230,22 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
                 publishProgress();
                 isConnected = true;
             }
+
+            currentWeight = getCurrentWeight(isConnected);
+
             return isConnected;
+        }
+
+        private String getCurrentWeight(boolean isConnected) {
+            if(isConnected){
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                currentWeight = BluetoothConnector.getInstance().bulkRead();
+            }
+            return currentWeight;
         }
 
         @Override
@@ -241,9 +257,8 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
         protected void onPostExecute(Boolean result) {
             AppUtils.hideProgressDialog();
             if(result){
-                String currentWeight = BluetoothConnector.getInstance().bulkRead();
                 AppLogs.i(TAG, "Bluetooth connected successfully to "+blueToothInfo.getAddress());
-                AppUtils.showToast(activityReference.get(), "Bluetooth connected successfully to "+blueToothInfo.getAddress()+" "+currentWeight);
+                AppUtils.showToast(activityReference.get(), "Bluetooth connected successfully to "+blueToothInfo.getAddress()+" with current weight: "+currentWeight);
                 activityReference.get().setResult(Activity.RESULT_OK, new Intent()
                         .putExtra(activityReference.get().getString(R.string.INTENT_EXTRA_CURRENT_WEIGHT), currentWeight)
                         .putExtra(activityReference.get().getString(R.string.INTENT_EXTRA_ITEM_NAME), foodItemName)

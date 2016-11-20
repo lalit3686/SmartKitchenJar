@@ -1,5 +1,6 @@
 package com.app.kitchen.jar.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.app.kitchen.jar.R;
+import com.app.kitchen.jar.application.MyApplication;
 import com.app.kitchen.jar.beans.JarWeightInfo;
 import com.app.kitchen.jar.commons.AppLogs;
 import com.app.kitchen.jar.commons.BluetoothConnector;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LiveWeightFragment extends BaseFragment implements View.OnClickListener {
 
@@ -40,14 +43,26 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if(isVisibleToUser){
+    public void onResume() {
+        super.onResume();
+        MyApplication.getEventBusInstance().register(this);
+        new LiveWeightListenTask().execute();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BluetoothConnector.getInstance().stopListening();
+        MyApplication.getEventBusInstance().unregister(this);
+    }
+
+    private class LiveWeightListenTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
             BluetoothConnector.getInstance().listen();
+            return null;
         }
-        else{
-            BluetoothConnector.getInstance().stopListening();
-        }
-        super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void getExtras(){
@@ -75,10 +90,10 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
         buttonRemoveJar.setOnClickListener(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLiveWeightEvent(String liveWeight){
         AppLogs.e(TAG, liveWeight);
-
+        circularBarLiveWeight.setTitle(liveWeight);
     }
 
     @Override

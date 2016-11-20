@@ -82,7 +82,12 @@ public class BluetoothConnector {
                 for (byte read : buffer) {
                     builder.append((char) read);
                 }
-                return builder.toString();
+
+                String readData = builder.toString();
+                if(readData == null){
+                    readData = "0.0";
+                }
+                return readData;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,7 +97,7 @@ public class BluetoothConnector {
         return null;
     }
 
-    public void listen() {
+    /*public void listen() {
         byte buffer[];
         buffer = new byte[1024];
 
@@ -107,12 +112,28 @@ public class BluetoothConnector {
                         builder.append((char) read);
                     }
                     MyApplication.getEventBusInstance().post(builder.toString());
-                    SystemClock.sleep(1000);
+                    SystemClock.sleep(2000);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 bluetoothDisconnect();
                 break;
+            }
+        }
+    }*/
+
+    public void listen(){
+        isListening = true;
+
+        while(isListening){
+            String readData = bulkRead();
+            if (readData != null) {
+                MyApplication.getEventBusInstance().post(readData.trim());
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -123,6 +144,7 @@ public class BluetoothConnector {
 
     public void bluetoothDisconnect() {
         isConnected = false;
+        isListening = false;
 
         try {
             if (mInputStream != null) {

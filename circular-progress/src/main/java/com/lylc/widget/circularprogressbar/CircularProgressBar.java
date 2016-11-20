@@ -45,6 +45,7 @@ public class CircularProgressBar extends ProgressBar{
 
 	private String mTitle = "";		
 	private String mSubTitle = "";
+	private int textSize = 40;
 
 	private int mStrokeWidth = STROKE_WIDTH;
 
@@ -140,7 +141,7 @@ public class CircularProgressBar extends ProgressBar{
 		mBackgroundColorPaint.setStyle(Paint.Style.STROKE);
 		mBackgroundColorPaint.setStrokeWidth(mStrokeWidth);
 
-		mTitlePaint.setTextSize(40);
+		mTitlePaint.setTextSize(textSize);
 		mTitlePaint.setStyle(Style.FILL);
 		mTitlePaint.setAntiAlias(true);
 		mTitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.NORMAL));
@@ -278,6 +279,15 @@ public class CircularProgressBar extends ProgressBar{
 	public synchronized void setShadow(int color){
 		this.mShadowColor = color;
 		invalidate();
+	}
+
+	public synchronized void setTextSize(int textSize) {
+		mTitlePaint.setTextSize(textSize);
+		invalidate();
+	}
+
+	public int getTextSize() {
+		return textSize;
 	}
 
 	public String getTitle(){

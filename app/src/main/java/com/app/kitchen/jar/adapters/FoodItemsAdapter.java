@@ -57,6 +57,7 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.Food
 
         int randomNumber = random.nextInt(100);
         holder.circularBarWeight.setProgress(randomNumber);
+        holder.circularBarWeight.setTextSize(40);
         holder.circularBarWeight.setTitle(randomNumber + "gms");
     }
 
