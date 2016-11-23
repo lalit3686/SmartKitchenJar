@@ -6,8 +6,10 @@ import android.os.SystemClock;
 
 import com.app.kitchen.jar.application.MyApplication;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -87,6 +89,11 @@ public class BluetoothConnector {
                 if(readData == null){
                     readData = "0.0";
                 }
+
+                String[] temp = readData.trim().split("\n");
+                if(temp.length > 1){
+                   return temp[temp.length-1];
+                }
                 return readData;
             }
         } catch (IOException e) {
@@ -126,15 +133,21 @@ public class BluetoothConnector {
         isListening = true;
 
         while(isListening){
-            String readData = bulkRead();
+            //String readData = bulkRead();
+            String readData = null;
+            try {
+                readData = readLine(mInputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (readData != null) {
                 MyApplication.getEventBusInstance().post(readData.trim());
             }
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -163,5 +176,27 @@ public class BluetoothConnector {
         } catch (java.io.IOException io) {
             io.printStackTrace();
         }
+    }
+    public static String readLine(InputStream inputStream) throws IOException {
+        InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");
+        StringBuilder stringBuilder = new StringBuilder();
+        int c;
+        for (c = reader.read(); c != '\n' && c != -1 ; c = reader.read()) {
+            stringBuilder.append((char)c);
+        }
+        if (c == -1 && stringBuilder.length() == 0) return null; // End of stream and nothing to return
+        return stringBuilder.toString();
+    }
+    public static String readLine1(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        int c;
+        for (c = inputStream.read(); c != '\n' && c != -1 ; c = inputStream.read()) {
+            byteArrayOutputStream.write(c);
+        }
+        if (c == -1 && byteArrayOutputStream.size() == 0) {
+            return null;
+        }
+        String line = byteArrayOutputStream.toString("UTF-8");
+        return line;
     }
 }

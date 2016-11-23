@@ -66,6 +66,36 @@ public class TableJarWeightInfo {
         return listJarWeightInfos;
     }
 
+    public static List<JarWeightInfo> getDistinctJarWeightInfo(){
+
+        int id;
+        String macAddress, itemName;
+        double itemWeight;
+        long timestamp;
+        List<JarWeightInfo> listJarWeightInfos = new ArrayList<>();
+
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO +" GROUP BY "+COL_MAC_ADDRESS + " ORDER BY "+COL_TIMESTAMP, null);
+
+        try {
+            while(cursor.moveToNext()){
+                id = cursor.getInt(cursor.getColumnIndex(COL_ID));
+                macAddress = cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS));
+                itemName = cursor.getString(cursor.getColumnIndex(COL_ITEM_NAME));
+                itemWeight = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_WEIGHT));
+                timestamp = cursor.getLong(cursor.getColumnIndex(COL_TIMESTAMP));
+
+                listJarWeightInfos.add(new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp));
+                AppLogs.i(TAG, String.valueOf(listJarWeightInfos));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            cursor.close();
+        }
+        return listJarWeightInfos;
+    }
     public static JarWeightInfo getJarWeightInfoByBluetoothAddress(String macAddress){
         int id;
         String itemName;
@@ -73,7 +103,7 @@ public class TableJarWeightInfo {
         long timestamp;
         JarWeightInfo weightInfo = null;
 
-        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO+" where "+COL_MAC_ADDRESS+"=?", new String[]{macAddress});
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO+" where "+COL_MAC_ADDRESS+"=? ORDER BY "+COL_TIMESTAMP, new String[]{macAddress});
 
         try {
             while(cursor.moveToNext()){

@@ -55,10 +55,15 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.Food
         AppLogs.e(TAG, "onBindViewHolder - " + position);
         holder.textViewFoodItem.setText(listJarWeightInfo.get(position).getItemName());
 
-        int randomNumber = random.nextInt(100);
-        holder.circularBarWeight.setProgress(randomNumber);
+        //JarWeightInfo jarWeightInfo = TableJarWeightInfo.getJarWeightInfoByBluetoothAddress(listJarWeightInfo.get(position).getMacAddress());
+        double weight = listJarWeightInfo.get(position).getItemWeight();
+        //if (jarWeightInfo != null) {
+        //    weight = jarWeightInfo.getItemWeight();
+        //}
+        holder.circularBarWeight.setProgress((int) weight);
         holder.circularBarWeight.setTextSize(40);
-        holder.circularBarWeight.setTitle(randomNumber + "gms");
+        holder.circularBarWeight.setTitle(weight + "gms");
+
     }
 
     @Override

@@ -13,6 +13,8 @@ import com.app.kitchen.jar.application.MyApplication;
 import com.app.kitchen.jar.beans.JarWeightInfo;
 import com.app.kitchen.jar.commons.AppLogs;
 import com.app.kitchen.jar.commons.BluetoothConnector;
+import com.app.kitchen.jar.databases.DatabaseHelper;
+import com.app.kitchen.jar.databases.TableJarWeightInfo;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -91,9 +93,16 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLiveWeightEvent(String liveWeight){
+    public void onLiveWeightEvent(final String liveWeight){
         AppLogs.e(TAG, liveWeight);
-        circularBarLiveWeight.setTitle(liveWeight);
+        circularBarLiveWeight.setTitle(liveWeight+" gms");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TableJarWeightInfo.insertIntoTable(weightInfo.getMacAddress(),weightInfo.getItemName(),Double.parseDouble(liveWeight),System.currentTimeMillis());
+            }
+        }).start();
+
     }
 
     @Override
@@ -105,4 +114,5 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
                 break;
         }
     }
+
 }

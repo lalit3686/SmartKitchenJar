@@ -238,14 +238,14 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
 
         private String getCurrentWeight(boolean isConnected) {
             if(isConnected){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                currentWeight = BluetoothConnector.getInstance().bulkRead();
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                currentWeight = BluetoothConnector.getInstance().bulkRead();
             }
-            return currentWeight;
+            return "0.0";
         }
 
         @Override

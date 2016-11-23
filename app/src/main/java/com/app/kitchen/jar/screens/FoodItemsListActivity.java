@@ -89,7 +89,7 @@ public class FoodItemsListActivity extends BaseActivity implements CustomOnItemC
     }
 
     private List<JarWeightInfo> getJarWeightInfo() {
-        listJarWeightInfo = TableJarWeightInfo.getAllJarWeightInfo();
+        listJarWeightInfo = TableJarWeightInfo.getDistinctJarWeightInfo();
         return listJarWeightInfo;
     }
 

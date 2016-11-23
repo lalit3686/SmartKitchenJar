@@ -148,7 +148,7 @@ public class DayWiseChartFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_order_online:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.amazon.in")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.amazon.in/s/field-keywords="+weightInfo.getItemName())));
                 break;
         }
     }
