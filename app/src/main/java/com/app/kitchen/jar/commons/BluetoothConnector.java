@@ -74,6 +74,7 @@ public class BluetoothConnector {
         return -1;
     }
 
+    @Deprecated
     public String bulkRead() {
         try {
             byte buffer[];
@@ -187,16 +188,5 @@ public class BluetoothConnector {
         if (c == -1 && stringBuilder.length() == 0) return null; // End of stream and nothing to return
         return stringBuilder.toString();
     }
-    public static String readLine1(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        int c;
-        for (c = inputStream.read(); c != '\n' && c != -1 ; c = inputStream.read()) {
-            byteArrayOutputStream.write(c);
-        }
-        if (c == -1 && byteArrayOutputStream.size() == 0) {
-            return null;
-        }
-        String line = byteArrayOutputStream.toString("UTF-8");
-        return line;
-    }
+
 }
