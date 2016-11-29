@@ -23,104 +23,107 @@ public class TableJarWeightInfo {
     private static final String COL_ITEM_NAME = "item_name";
     private static final String COL_ITEM_WEIGHT = "item_weight";
     private static final String COL_TIMESTAMP = "timestamp";
+    private static final String COL_ITEM_CONSUMED = "item_consumed";
 
-    public static void insertIntoTable(String macAddress, String itemName, double itemWeight, long timestamp) {
+    public static void insertIntoTable(String macAddress, String itemName, double itemWeight, long timestamp, double itemConsumed) {
 
         ContentValues values = new ContentValues();
         values.put(COL_MAC_ADDRESS, macAddress);
         values.put(COL_ITEM_NAME, itemName);
         values.put(COL_ITEM_WEIGHT, itemWeight);
         values.put(COL_TIMESTAMP, timestamp);
+        values.put(COL_ITEM_CONSUMED, itemConsumed);
 
         MyApplication.getDatabaseInstance().insert(TABLE_JAR_WEIGHT_INFO, null, values);
     }
 
-    public static List<JarWeightInfo> getAllJarWeightInfo(){
+    public static List<JarWeightInfo> getAllJarWeightInfo() {
 
         int id;
         String macAddress, itemName;
         double itemWeight;
+        double itemConsumed;
         long timestamp;
         List<JarWeightInfo> listJarWeightInfos = new ArrayList<>();
 
-        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO, null);
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from " + TABLE_JAR_WEIGHT_INFO, null);
 
         try {
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 id = cursor.getInt(cursor.getColumnIndex(COL_ID));
                 macAddress = cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS));
                 itemName = cursor.getString(cursor.getColumnIndex(COL_ITEM_NAME));
                 itemWeight = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_WEIGHT));
                 timestamp = cursor.getLong(cursor.getColumnIndex(COL_TIMESTAMP));
+                itemConsumed = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_CONSUMED));
 
-                listJarWeightInfos.add(new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp));
+                listJarWeightInfos.add(new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp, itemConsumed));
                 AppLogs.i(TAG, String.valueOf(listJarWeightInfos));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             cursor.close();
         }
         return listJarWeightInfos;
     }
 
-    public static List<JarWeightInfo> getDistinctJarWeightInfo(){
+    public static List<JarWeightInfo> getDistinctJarWeightInfo() {
 
         int id;
         String macAddress, itemName;
         double itemWeight;
+        double itemConsumed;
         long timestamp;
         List<JarWeightInfo> listJarWeightInfos = new ArrayList<>();
 
-        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO +" GROUP BY "+COL_MAC_ADDRESS + " ORDER BY "+COL_TIMESTAMP, null);
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from " + TABLE_JAR_WEIGHT_INFO + " GROUP BY " + COL_MAC_ADDRESS + " ORDER BY " + COL_TIMESTAMP, null);
 
         try {
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 id = cursor.getInt(cursor.getColumnIndex(COL_ID));
                 macAddress = cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS));
                 itemName = cursor.getString(cursor.getColumnIndex(COL_ITEM_NAME));
                 itemWeight = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_WEIGHT));
                 timestamp = cursor.getLong(cursor.getColumnIndex(COL_TIMESTAMP));
+                itemConsumed = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_CONSUMED));
 
-                listJarWeightInfos.add(new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp));
+                listJarWeightInfos.add(new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp, itemConsumed));
                 AppLogs.i(TAG, String.valueOf(listJarWeightInfos));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             cursor.close();
         }
         return listJarWeightInfos;
     }
-    public static JarWeightInfo getJarWeightInfoByBluetoothAddress(String macAddress){
+
+    public static JarWeightInfo getJarWeightInfoByBluetoothAddress(String macAddress) {
         int id;
         String itemName;
         double itemWeight;
+        double itemConsumed;
         long timestamp;
         JarWeightInfo weightInfo = null;
 
-        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from "+TABLE_JAR_WEIGHT_INFO+" where "+COL_MAC_ADDRESS+"=? ORDER BY "+COL_TIMESTAMP, new String[]{macAddress});
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select * from " + TABLE_JAR_WEIGHT_INFO + " where " + COL_MAC_ADDRESS + "=? ORDER BY " + COL_TIMESTAMP, new String[]{macAddress});
 
         try {
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 id = cursor.getInt(cursor.getColumnIndex(COL_ID));
                 macAddress = cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS));
                 itemName = cursor.getString(cursor.getColumnIndex(COL_ITEM_NAME));
                 itemWeight = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_WEIGHT));
                 timestamp = cursor.getLong(cursor.getColumnIndex(COL_TIMESTAMP));
+                itemConsumed = cursor.getDouble(cursor.getColumnIndex(COL_ITEM_CONSUMED));
 
-                weightInfo = new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp);
+                weightInfo = new JarWeightInfo(id, macAddress, itemName, itemWeight, timestamp, itemConsumed);
                 AppLogs.i(TAG, String.valueOf(weightInfo));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             cursor.close();
         }
         return weightInfo;

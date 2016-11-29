@@ -61,8 +61,10 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.Food
         //    weight = jarWeightInfo.getItemWeight();
         //}
         holder.circularBarWeight.setProgress((int) weight);
-        holder.circularBarWeight.setTextSize(40);
-        holder.circularBarWeight.setTitle(weight + "gms");
+        holder.circularBarWeight.setTextSize(30);
+        holder.circularBarWeight.setTitle(weight+"");
+        holder.circularBarWeight.setSubTitle("gm");
+
 
     }
 

@@ -45,6 +45,17 @@ public class FoodItemsListActivity extends BaseActivity implements CustomOnItemC
         addListeners();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter = new FoodItemsAdapter(activity, textViewNoFoodItems, getJarWeightInfo());
+        recyclerViewFoodItems.setAdapter(adapter);
+//        if(adapter!=null) {
+//            getJarWeightInfo();
+//            adapter.notifyDataSetChanged();
+//        }
+    }
+
     private void initToolBar(){
         Toolbar toolbarFoodItems = (Toolbar) findViewById(R.id.toolbar_food_items);
         setSupportActionBar(toolbarFoodItems);

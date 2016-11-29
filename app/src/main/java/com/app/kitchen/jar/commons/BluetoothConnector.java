@@ -26,13 +26,17 @@ public class BluetoothConnector {
     private InputStream mInputStream;
     private OutputStream mOutputStream;
     private static BluetoothConnector instance;
+    //boolean isFinalCurrentWeight = false;
+    String lastReceivedWeight = "0.0";
 
-    public static BluetoothConnector getInstance(){
-        if(instance == null){
+
+    public static BluetoothConnector getInstance() {
+        if (instance == null) {
             instance = new BluetoothConnector();
         }
         return instance;
     }
+
     public boolean bluetoothConnect(BluetoothDevice device) {
         mDevice = device;
 
@@ -74,36 +78,36 @@ public class BluetoothConnector {
         return -1;
     }
 
-    @Deprecated
-    public String bulkRead() {
-        try {
-            byte buffer[];
-            buffer = new byte[1024];
-            if (isConnected && mInputStream.available() > 0) {
-                mInputStream.read(buffer);
-                StringBuilder builder = new StringBuilder();
-                for (byte read : buffer) {
-                    builder.append((char) read);
-                }
-
-                String readData = builder.toString();
-                if(readData == null){
-                    readData = "0.0";
-                }
-
-                String[] temp = readData.trim().split("\n");
-                if(temp.length > 1){
-                   return temp[temp.length-1];
-                }
-                return readData;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            bluetoothDisconnect();
-        }
-
-        return null;
-    }
+//    @Deprecated
+//    public String bulkRead() {
+//        try {
+//            byte buffer[];
+//            buffer = new byte[1024];
+//            if (isConnected && mInputStream.available() > 0) {
+//                mInputStream.read(buffer);
+//                StringBuilder builder = new StringBuilder();
+//                for (byte read : buffer) {
+//                    builder.append((char) read);
+//                }
+//
+//                String readData = builder.toString();
+//                if (readData == null) {
+//                    readData = "0.0";
+//                }
+//
+//                String[] temp = readData.trim().split("\n");
+//                if (temp.length > 1) {
+//                    return temp[temp.length - 1];
+//                }
+//                return readData;
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            bluetoothDisconnect();
+//        }
+//
+//        return null;
+//    }
 
     /*public void listen() {
         byte buffer[];
@@ -130,29 +134,27 @@ public class BluetoothConnector {
         }
     }*/
 
-    public void listen(){
+    public void listen() {
         isListening = true;
 
-        while(isListening){
+        while (isListening) {
             //String readData = bulkRead();
-            String readData = null;
             try {
-                readData = readLine(mInputStream);
+                String currentWeight = readLine(mInputStream);
+                AppLogs.e("BluetoothConnector", "Data from HC-05 :: " + currentWeight);
+                if (currentWeight != null) {
+
+                    String[] weightInfo = new String[]{lastReceivedWeight, currentWeight.trim()};
+                    MyApplication.getEventBusInstance().post(weightInfo);
+                    lastReceivedWeight = currentWeight;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (readData != null) {
-                MyApplication.getEventBusInstance().post(readData.trim());
-            }
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 
-    public void stopListening(){
+    public void stopListening() {
         isListening = false;
     }
 
@@ -178,14 +180,19 @@ public class BluetoothConnector {
             io.printStackTrace();
         }
     }
+
     public static String readLine(InputStream inputStream) throws IOException {
+        AppLogs.e("BluetoothConnector", "Reading line");
         InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");
         StringBuilder stringBuilder = new StringBuilder();
         int c;
-        for (c = reader.read(); c != '\n' && c != -1 ; c = reader.read()) {
-            stringBuilder.append((char)c);
+        for (c = reader.read(); c != '\n' && c != -1; c = reader.read()) {
+            stringBuilder.append((char) c);
         }
-        if (c == -1 && stringBuilder.length() == 0) return null; // End of stream and nothing to return
+        if (c == -1 && stringBuilder.length() == 0) {
+            AppLogs.e("BluetoothConnector", "No data from Bluetooth");
+            return null; // End of stream and nothing to return
+        }
         return stringBuilder.toString();
     }
 

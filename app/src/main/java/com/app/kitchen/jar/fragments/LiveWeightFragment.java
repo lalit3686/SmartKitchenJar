@@ -11,9 +11,7 @@ import android.widget.TextView;
 import com.app.kitchen.jar.R;
 import com.app.kitchen.jar.application.MyApplication;
 import com.app.kitchen.jar.beans.JarWeightInfo;
-import com.app.kitchen.jar.commons.AppLogs;
 import com.app.kitchen.jar.commons.BluetoothConnector;
-import com.app.kitchen.jar.databases.DatabaseHelper;
 import com.app.kitchen.jar.databases.TableJarWeightInfo;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
@@ -26,7 +24,7 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     private Button buttonTar, buttonRemoveJar;
     private CircularProgressBar circularBarLiveWeight;
     private TextView textViewLiveWeight;
-    private JarWeightInfo weightInfo;
+    private JarWeightInfo jarWeightInfo;
 
     public LiveWeightFragment() {
         // Required empty public constructor
@@ -58,7 +56,7 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
         MyApplication.getEventBusInstance().unregister(this);
     }
 
-    private class LiveWeightListenTask extends AsyncTask<Void, Void, Void>{
+    private class LiveWeightListenTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -67,11 +65,11 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void getExtras(){
+    private void getExtras() {
         Bundle bundle = getActivity().getIntent().getExtras();
-        weightInfo = bundle.getParcelable(getString(R.string.INTENT_EXTRA_JAR_WEIGHT_INFO));
+        jarWeightInfo = bundle.getParcelable(getString(R.string.INTENT_EXTRA_JAR_WEIGHT_INFO));
 
-        textViewLiveWeight.setText(String.format(getString(R.string.text_live_weight), weightInfo.getItemName()));
+        textViewLiveWeight.setText(String.format(getString(R.string.text_live_weight), jarWeightInfo.getItemName()));
     }
 
     @Override
@@ -80,8 +78,8 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
         buttonRemoveJar = (Button) view.findViewById(R.id.button_remmove_jar);
 
         circularBarLiveWeight = (CircularProgressBar) view.findViewById(R.id.circular_bar_live_weight);
-        circularBarLiveWeight.setProgress(60);
-        circularBarLiveWeight.setTitle(60 + " gms");
+        circularBarLiveWeight.setProgress(0);
+        circularBarLiveWeight.setTitle(0 + " gms");
 
         textViewLiveWeight = (TextView) view.findViewById(R.id.text_view_live_weight);
     }
@@ -93,16 +91,25 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLiveWeightEvent(final String liveWeight){
-        AppLogs.e(TAG, liveWeight);
-        circularBarLiveWeight.setTitle(liveWeight+" gms");
+    public void onLiveWeightEvent(final String[] weightInfo) {
+
+        final double lastReceivedWeight = Double.valueOf(weightInfo[0]);
+        final double liveWeight = Double.valueOf(weightInfo[1]);
+
+        circularBarLiveWeight.setTitle(liveWeight + "");
+        circularBarLiveWeight.setSubTitle("gm");
+        circularBarLiveWeight.setProgress((int) liveWeight);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                TableJarWeightInfo.insertIntoTable(weightInfo.getMacAddress(),weightInfo.getItemName(),Double.parseDouble(liveWeight),System.currentTimeMillis());
+                double consumed = 0;
+                if (lastReceivedWeight > liveWeight) { // Item consumed
+                    consumed = lastReceivedWeight - liveWeight;
+                }
+
+                TableJarWeightInfo.insertIntoTable(jarWeightInfo.getMacAddress(), jarWeightInfo.getItemName(), liveWeight, System.currentTimeMillis(), consumed);
             }
         }).start();
-
     }
 
     @Override

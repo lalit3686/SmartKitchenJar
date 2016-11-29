@@ -13,16 +13,18 @@ public class JarWeightInfo implements Parcelable {
     private String itemName;
     private double itemWeight;
     private long timestamp;
+    private double itemConsumed;
 
     public JarWeightInfo() {
     }
 
-    public JarWeightInfo(int id, String macAddress, String itemName, double itemWeight, long timestamp) {
+    public JarWeightInfo(int id, String macAddress, String itemName, double itemWeight, long timestamp, double itemConsumed) {
         this.id = id;
         this.macAddress = macAddress;
         this.itemName = itemName;
         this.itemWeight = itemWeight;
         this.timestamp = timestamp;
+        this.itemConsumed = itemConsumed;
     }
 
     public int getId() {
@@ -57,6 +59,7 @@ public class JarWeightInfo implements Parcelable {
         dest.writeString(this.itemName);
         dest.writeDouble(this.itemWeight);
         dest.writeLong(this.timestamp);
+        dest.writeDouble(this.itemConsumed);
     }
 
     protected JarWeightInfo(Parcel in) {
@@ -65,6 +68,7 @@ public class JarWeightInfo implements Parcelable {
         this.itemName = in.readString();
         this.itemWeight = in.readDouble();
         this.timestamp = in.readLong();
+        this.itemConsumed = in.readDouble();
     }
 
     public static final Parcelable.Creator<JarWeightInfo> CREATOR = new Parcelable.Creator<JarWeightInfo>() {
@@ -78,4 +82,8 @@ public class JarWeightInfo implements Parcelable {
             return new JarWeightInfo[size];
         }
     };
+
+    public double getItemConsumed() {
+        return itemConsumed;
+    }
 }
