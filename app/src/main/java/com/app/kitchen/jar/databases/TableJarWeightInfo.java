@@ -128,4 +128,22 @@ public class TableJarWeightInfo {
         }
         return weightInfo;
     }
+
+    public static double getTotalConsumed(String macAddress) {
+        double totalConsumed = 0;
+
+        Cursor cursor = MyApplication.getDatabaseInstance().rawQuery("select sum(" + COL_ITEM_CONSUMED + ") from " + TABLE_JAR_WEIGHT_INFO + " where " + COL_MAC_ADDRESS, new String[]{macAddress});
+
+        try {
+            while (cursor.moveToNext()) {
+                totalConsumed = cursor.getDouble(0);
+                AppLogs.i(TAG, "Total consumed from DB: " + String.valueOf(totalConsumed));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+        return totalConsumed;
+    }
 }

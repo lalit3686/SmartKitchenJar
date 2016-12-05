@@ -62,10 +62,12 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.Food
         //}
         holder.circularBarWeight.setProgress((int) weight);
         holder.circularBarWeight.setTextSize(30);
-        holder.circularBarWeight.setTitle(weight+"");
+        holder.circularBarWeight.setTitle(weight + "");
         holder.circularBarWeight.setSubTitle("gm");
 
-
+        //double totalConsumed = TableJarWeightInfo.getTotalConsumed(listJarWeightInfo.get(position).getMacAddress());
+        //holder.textViewConsumed.setText("Consumed: "+totalConsumed+" gms");
+        //holder.textViewTimeToEmpty.setText("");
     }
 
     @Override
@@ -78,12 +80,16 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.Food
 
         private TextView textViewFoodItem;
         private CircularProgressBar circularBarWeight;
+        private TextView textViewConsumed;
+        private TextView textViewTimeToEmpty;
 
         public FoodItemHolder(View view) {
             super(view);
 
             circularBarWeight = (CircularProgressBar) view.findViewById(R.id.circular_bar_weight);
             textViewFoodItem = (TextView) view.findViewById(R.id.text_view_food_item);
+            textViewConsumed = (TextView) view.findViewById(R.id.text_view_consumed);
+            textViewTimeToEmpty = (TextView) view.findViewById(R.id.text_view_time_to_empty);
         }
     }
 }

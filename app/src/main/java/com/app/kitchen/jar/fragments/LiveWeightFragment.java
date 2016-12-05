@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.app.kitchen.jar.R;
 import com.app.kitchen.jar.application.MyApplication;
 import com.app.kitchen.jar.beans.JarWeightInfo;
+import com.app.kitchen.jar.commons.AppLogs;
 import com.app.kitchen.jar.commons.BluetoothConnector;
+import com.app.kitchen.jar.databases.TableJarInfo;
 import com.app.kitchen.jar.databases.TableJarWeightInfo;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
@@ -25,6 +27,7 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     private CircularProgressBar circularBarLiveWeight;
     private TextView textViewLiveWeight;
     private JarWeightInfo jarWeightInfo;
+    private double liveWeight;
 
     public LiveWeightFragment() {
         // Required empty public constructor
@@ -93,8 +96,10 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLiveWeightEvent(final String[] weightInfo) {
 
-        final double lastReceivedWeight = Double.valueOf(weightInfo[0]);
-        final double liveWeight = Double.valueOf(weightInfo[1]);
+        double resetWeight = TableJarInfo.getResetWeight(jarWeightInfo.getMacAddress());
+
+        final double lastReceivedWeight = Double.valueOf(weightInfo[0]) - resetWeight;
+        liveWeight = Double.valueOf(weightInfo[1]) - resetWeight;
 
         circularBarLiveWeight.setTitle(liveWeight + "");
         circularBarLiveWeight.setSubTitle("gm");
@@ -106,7 +111,6 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
                 if (lastReceivedWeight > liveWeight) { // Item consumed
                     consumed = lastReceivedWeight - liveWeight;
                 }
-
                 TableJarWeightInfo.insertIntoTable(jarWeightInfo.getMacAddress(), jarWeightInfo.getItemName(), liveWeight, System.currentTimeMillis(), consumed);
             }
         }).start();
@@ -116,10 +120,18 @@ public class LiveWeightFragment extends BaseFragment implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_tar:
+                resetJar();
                 break;
             case R.id.button_remmove_jar:
                 break;
         }
     }
 
+    public void resetJar() {
+        AppLogs.e(TAG,"Reseting Jar");
+        TableJarInfo.updateResetWeight(jarWeightInfo.getMacAddress(), liveWeight);
+        circularBarLiveWeight.setTitle("0.0");
+        circularBarLiveWeight.setSubTitle("gm");
+        circularBarLiveWeight.setProgress(0);
+    }
 }

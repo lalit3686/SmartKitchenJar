@@ -96,7 +96,7 @@ public class FoodItemsListActivity extends BaseActivity implements CustomOnItemC
     }
 
     private void insertJarWeightInfo(String macAddress, String itemName, double itemWeight, long timestamp){
-        TableJarWeightInfo.insertIntoTable(macAddress, itemName, itemWeight, timestamp);
+        TableJarWeightInfo.insertIntoTable(macAddress, itemName, itemWeight, timestamp,0);
     }
 
     private List<JarWeightInfo> getJarWeightInfo() {

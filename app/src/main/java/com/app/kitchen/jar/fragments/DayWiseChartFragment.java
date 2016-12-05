@@ -73,7 +73,7 @@ public class DayWiseChartFragment extends BaseFragment implements View.OnClickLi
 
     private BarDataSet getDataSet() {
         List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, 30f));
+        entries.add(new BarEntry(0f, 30f,"30gm"));
         entries.add(new BarEntry(1f, 80f));
         entries.add(new BarEntry(2f, 60f));
         entries.add(new BarEntry(3f, 50f));

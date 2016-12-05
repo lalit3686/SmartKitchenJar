@@ -13,39 +13,23 @@ public class JarInfo implements Parcelable {
     private int id;
     private String macAddress;
     private String itemName;
-
-
     private double currentWeight;
     private double totalConsumed;
+    private double resetWeight;
 
     public JarInfo() {
     }
 
-    public JarInfo(int id, String macAddress, String itemName, double currentWeight, double totalConsumed) {
+    public JarInfo(int id, String macAddress, String itemName, double currentWeight, double totalConsumed, double resetWeight) {
         this.id = id;
         this.macAddress = macAddress;
         this.itemName = itemName;
         this.currentWeight = currentWeight;
         this.totalConsumed = totalConsumed;
+        this.resetWeight = resetWeight;
 
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getMacAddress() {
-        return macAddress;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -54,6 +38,7 @@ public class JarInfo implements Parcelable {
         dest.writeString(this.itemName);
         dest.writeDouble(currentWeight);
         dest.writeDouble(totalConsumed);
+        dest.writeDouble(resetWeight);
     }
 
     protected JarInfo(Parcel in) {
@@ -62,6 +47,7 @@ public class JarInfo implements Parcelable {
         this.itemName = in.readString();
         this.currentWeight = in.readDouble();
         this.totalConsumed = in.readDouble();
+        this.resetWeight = in.readDouble();
     }
 
     public static final Creator<JarInfo> CREATOR = new Creator<JarInfo>() {
@@ -83,5 +69,26 @@ public class JarInfo implements Parcelable {
 
     public double getCurrentWeight() {
         return currentWeight;
+    }
+
+    public double getResetWeight() {
+        return resetWeight;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_food_item"
             android:paddingLeft="@dimen/padding_2dp"
-            android:text="Consumed: 400 gms"
+            android:text="Consumed: 0 gms"
             android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/text_size_16dp" />
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_consumed"
             android:paddingLeft="@dimen/padding_2dp"
-            android:text="Time to empty: 2 days"
+            android:text="Time to empty: 0 days"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_16dp" />
 

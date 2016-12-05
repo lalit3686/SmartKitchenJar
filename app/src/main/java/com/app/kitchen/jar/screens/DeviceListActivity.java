@@ -26,6 +26,7 @@ import com.app.kitchen.jar.beans.BlueToothInfo;
 import com.app.kitchen.jar.commons.AppLogs;
 import com.app.kitchen.jar.commons.AppUtils;
 import com.app.kitchen.jar.commons.BluetoothConnector;
+import com.app.kitchen.jar.databases.TableJarInfo;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -263,6 +264,7 @@ public class DeviceListActivity extends BaseActivity implements AdapterView.OnIt
                         .putExtra(activityReference.get().getString(R.string.INTENT_EXTRA_CURRENT_WEIGHT), currentWeight)
                         .putExtra(activityReference.get().getString(R.string.INTENT_EXTRA_ITEM_NAME), foodItemName)
                         .putExtra(activityReference.get().getString(R.string.INTENT_EXTRA_MACADDRESS), blueToothInfo.getAddress()));
+                TableJarInfo.insertIntoTable(blueToothInfo.getAddress(),foodItemName,0,0,0);
                 activityReference.get().finish();
             }
             else{

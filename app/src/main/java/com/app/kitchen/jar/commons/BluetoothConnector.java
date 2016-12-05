@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.SystemClock;
 
 import com.app.kitchen.jar.application.MyApplication;
+import com.app.kitchen.jar.databases.TableJarInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -141,9 +142,9 @@ public class BluetoothConnector {
             //String readData = bulkRead();
             try {
                 String currentWeight = readLine(mInputStream);
-                AppLogs.e("BluetoothConnector", "Data from HC-05 :: " + currentWeight);
-                if (currentWeight != null) {
 
+                AppLogs.e("BluetoothConnector", "Data from HC-05 :: Last Weight: "+lastReceivedWeight+", Current Weight: " + currentWeight);
+                if (currentWeight != null) {
                     String[] weightInfo = new String[]{lastReceivedWeight, currentWeight.trim()};
                     MyApplication.getEventBusInstance().post(weightInfo);
                     lastReceivedWeight = currentWeight;
